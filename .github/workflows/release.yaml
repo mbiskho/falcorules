@@ -14,7 +14,7 @@ jobs:
     env:
       # Only one ruleset file for our demo
       STAGING_GENERAL_RULE: /staging/staging_falco_rules.yaml
-      STAGING_CUSTOM_RULE: /staging/custom/staging_custom_rules.yaml
+      STAGING_CUSTOM_RULE: /staging/staging_custom_rules.yaml
       # Used to setup Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
       # Assuming we are in the main branch, our OCI artifact will
