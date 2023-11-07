@@ -13,12 +13,12 @@ jobs:
 
     env:
       # Only one ruleset file for our demo
-      RULESET_FILE: custom_falco_rules.yaml
+      RULESET_FILE: /staging/general/falco_rules.yaml
       # Used to setup Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
       # Assuming we are in the main branch, our OCI artifact will
-      # look something like ghcr.io/user/repo/custom-rules:main
-      OCI_ARTIFACT_NAME: custom-rules
+      # look something like ghcr.io/user/repo/centralize-rules:main
+      OCI_ARTIFACT_NAME: centralize-rules
       OCI_ARTIFACT_VERSION: ${{ github.ref_name }}
 
     steps:
