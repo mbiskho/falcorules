@@ -14,6 +14,7 @@ jobs:
     env:
       # Only one ruleset file for our demo
       GENERAL_RULE: /staging/general/falco_rules.yaml
+      CUSTOM_RULE: /staging/custom/custom_rules.yaml
       # Used to setup Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
       # Assuming we are in the main branch, our OCI artifact will
@@ -45,7 +46,7 @@ jobs:
         with:
           path: rules
 
-      - name: Upload OCI artifacts to GitHub packages
+      - name: Upload General OCI artifacts to GitHub packages
         run: |
              tools/falcoctl/falcoctl registry push \
              --config /dev/null \
