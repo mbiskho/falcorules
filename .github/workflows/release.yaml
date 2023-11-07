@@ -13,8 +13,7 @@ jobs:
 
     env:
       # Only one ruleset file for our demo
-      GENERAL_RULES: /staging/general/falco_rules.yaml
-      CUSTOM_RULES: /staging/custom/custom_rules.yaml
+      GENERAL_RULE: /staging/general/falco_rules.yaml
       # Used to setup Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
       # Assuming we are in the main branch, our OCI artifact will
@@ -46,22 +45,13 @@ jobs:
         with:
           path: rules
 
-      - name: Upload OCI artifacts to GitHub packages - General
+      - name: Upload OCI artifacts to GitHub packages
         run: |
              tools/falcoctl/falcoctl registry push \
              --config /dev/null \
              --type rulesfile \
              --version ${OCI_ARTIFACT_VERSION} \
              ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
-             rules/${GENERAL_RULES}     
-
-      - name: Upload OCI artifacts to GitHub packages - Custom
-        run: |
-             tools/falcoctl/falcoctl registry push \
-             --config /dev/null \
-             --type rulesfile \
-             --version ${OCI_ARTIFACT_VERSION} \
-             ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
-             rules/${CUSTOM_RULES}       
+             rules/${GENERAL_RULE}             
         env:
           FALCOCTL_REGISTRY_AUTH_BASIC: ${{ env.OCI_REGISTRY }},${{ github.repository_owner }},${{ secrets.GITHUB_TOKEN }}
