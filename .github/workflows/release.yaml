@@ -15,6 +15,9 @@ jobs:
       # Only one ruleset file for our demo
       STAGING_GENERAL_RULE: /staging/staging_falco_rules.yaml
       STAGING_CUSTOM_RULE: /staging/staging_custom_rules.yaml
+
+      PRODUCTION_GENERAL_RULE: /production/production_falco_rules.yaml
+      PRODUCTION_CUSTOM_RULE: /production/production_custom_rules.yaml
       # Used to setup Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
       # Assuming we are in the main branch, our OCI artifact will
@@ -48,7 +51,7 @@ jobs:
 
       - name: Upload Staging Rules OCI artifacts to GitHub packages
         run: |
-          for rule_file in rules/${STAGING_GENERAL_RULE} rules/${STAGING_CUSTOM_RULE}; do
+          for rule_file in rules/${STAGING_GENERAL_RULE} rules/${STAGING_CUSTOM_RULE} rules/${PRODUCTION_GENERAL_RULE} rules/${PRODUCTION_CUSTOM_RULE}; do
             tools/falcoctl/falcoctl registry push \
               --config /dev/null \
               --type rulesfile \
