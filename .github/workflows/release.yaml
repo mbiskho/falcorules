@@ -13,8 +13,8 @@ jobs:
 
     env:
       # Only one ruleset file for our demo
-      GENERAL_RULE: /staging/staging_falco_rules.yaml
-      CUSTOM_RULE: /staging/custom/staging_custom_rules.yaml
+      STAGING_GENERAL_RULE: /staging/staging_falco_rules.yaml
+      STAGING_CUSTOM_RULE: /staging/custom/staging_custom_rules.yaml
       # Used to setup Auth and OCI artifact location
       OCI_REGISTRY: ghcr.io
       # Assuming we are in the main branch, our OCI artifact will
@@ -46,22 +46,22 @@ jobs:
         with:
           path: rules
 
-      - name: Upload General OCI artifacts to GitHub packages
+      - name: Upload Staging General OCI artifacts to GitHub packages
         run: |
              tools/falcoctl/falcoctl registry push \
              --config /dev/null \
              --type rulesfile \
              --version ${OCI_ARTIFACT_VERSION} \
              ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
-             rules/${GENERAL_RULE}   
+             rules/${STAGING_GENERAL_RULE}   
 
-      # - name: Upload Custom OCI artifacts to GitHub packages
-      #   run: |
-      #        tools/falcoctl/falcoctl registry push \
-      #        --config /dev/null \
-      #        --type rulesfile \
-      #        --version ${OCI_ARTIFACT_VERSION} \
-      #        ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
-      #        rules/${CUSTOM_RULE}              
+      - name: Upload Staging Custom OCI artifacts to GitHub packages
+        run: |
+             tools/falcoctl/falcoctl registry push \
+             --config /dev/null \
+             --type rulesfile \
+             --version ${OCI_ARTIFACT_VERSION} \
+             ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
+             rules/${STAGING_CUSTOM_RULE}              
         env:
           FALCOCTL_REGISTRY_AUTH_BASIC: ${{ env.OCI_REGISTRY }},${{ github.repository_owner }},${{ secrets.GITHUB_TOKEN }}
