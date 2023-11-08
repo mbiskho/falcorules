@@ -48,16 +48,25 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: rules
-
-      - name: Upload Staging Rules OCI artifacts to GitHub packages
+      - name: Upload Staging General OCI artifacts to GitHub packages
         run: |
-          for rule_file in rules/${STAGING_GENERAL_RULE} rules/${STAGING_CUSTOM_RULE} rules/${PRODUCTION_GENERAL_RULE} rules/${PRODUCTION_CUSTOM_RULE}; do
-            tools/falcoctl/falcoctl registry push \
-              --config /dev/null \
-              --type rulesfile \
-              --version ${OCI_ARTIFACT_VERSION} \
-              ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
-              "$rule_file"
-          done
+             tools/falcoctl/falcoctl registry push \
+             --config /dev/null \
+             --type rulesfile \
+             --version ${OCI_ARTIFACT_VERSION} \
+             ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
+             rules/${STAGING_GENERAL_RULE}
         env:
           FALCOCTL_REGISTRY_AUTH_BASIC: ${{ env.OCI_REGISTRY }},${{ github.repository_owner }},${{ secrets.GITHUB_TOKEN }}
+      # - name: Upload Staging Rules OCI artifacts to GitHub packages
+      #   run: |
+      #     for rule_file in rules/${STAGING_GENERAL_RULE} rules/${STAGING_CUSTOM_RULE} rules/${PRODUCTION_GENERAL_RULE} rules/${PRODUCTION_CUSTOM_RULE}; do
+      #       tools/falcoctl/falcoctl registry push \
+      #         --config /dev/null \
+      #         --type rulesfile \
+      #         --version ${OCI_ARTIFACT_VERSION} \
+      #         ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION} \
+      #         "$rule_file"
+      #     done
+        # env:
+          # FALCOCTL_REGISTRY_AUTH_BASIC: ${{ env.OCI_REGISTRY }},${{ github.repository_owner }},${{ secrets.GITHUB_TOKEN }}
