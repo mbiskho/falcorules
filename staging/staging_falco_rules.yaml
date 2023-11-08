@@ -592,7 +592,26 @@
 - list: known_memfd_execution_binaries
   items: []
 
+- list: network_tools
+  items: ["nmap", "ping", "dig", "nslookup", "arp"]
 # --------------------------------------- Rules ---------------------------------------
+- rule: Suspicious Network Scanning Command
+  desc: Detects suspicious network scanning commands
+  condition:
+    (proc.name=nmap or proc.name=ping or proc.name=dig or
+    proc.name=nslookup or proc.name=arp) and
+    (
+      proc.args contains "-sP" or
+      proc.args contains "-c" or
+      proc.args contains "+short" or
+      proc.args contains "-a"
+    )
+  enabled: true
+  output: Suspicious network scanning command executed
+  (user=%user.name command=%proc.cmdline)
+  priority: WARNING
+  tags: [host, container, network, mitre_discovery, remote_system_discovery, T1018]
+
 - rule: Read sensitive file trusted after startup
   desc: >
     An attempt to read any sensitive file (e.g. files containing user/password/authentication
