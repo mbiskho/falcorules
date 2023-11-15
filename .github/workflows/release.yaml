@@ -35,6 +35,10 @@ jobs:
           ref: main
           path: tools/falcoctl
 
+      # Debug
+      - name: Log
+        run: echo ${OCI_REGISTRY}/${GITHUB_REPOSITORY}/${OCI_ARTIFACT_NAME}:${OCI_ARTIFACT_VERSION}
+
       - name: Setup Golang
         uses: actions/setup-go@v4
         with:
